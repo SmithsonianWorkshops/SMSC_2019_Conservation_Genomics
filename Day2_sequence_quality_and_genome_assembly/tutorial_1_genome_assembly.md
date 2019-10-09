@@ -1,4 +1,4 @@
-###1. Running FastQC on raw data
+### 1. Running FastQC on raw data
 * Reminder to take notes, share info here: [Etherpad](https://pad.carpentries.org/2019-Oct-SMSC)
 * FastQC is a program that can quickly scan your raw data to help figure out if there are adapters or low quality reads present. Create a job file to run FastQC on one of the fastq files here: ```/scratch/genomics/dikowr/siskin_raw_data/illumina_raw```
 	+ **module**: ```bioinformatics/fastqc```
@@ -6,7 +6,7 @@
 	+ after your job finishes, find the results and download some of the images, e.g. ```per_base_quality.png``` to your local machine using ```scp```, CyberDuck, or Filezilla.
 
 
-###2. Trimming adapters with TrimGalore! 
+### 2. Trimming adapters with TrimGalore! 
 * PacBio data will be error-corrected solely by the assembler, but Illumina data trimming and thinning are common.
 * Most assemblers these days don't want you to trim/thin for quality before assembling, but trimming is important for downstream applications. TrimGalore will auto-detect what adapters are present and remove very low quality reads (quality score <20) by default.  
 * Create a job file to trim adapters and very low quality reads for the Illumina data here: ```/scratch/genomics/dikowr/siskin_raw_data/illumina_raw```
@@ -14,7 +14,7 @@
 	+ **module**: ```bioinformatics/trimgalore```
 	+ You can then run FastQC again to see if anything has changed.
 
-###3. Run Genomescope
+### 3. Run Genomescope
 
 * Genomescope can be used to estimate genome size from short read data: 
 	+ [Genomescope](http://qb.cshl.edu/genomescope/) 
@@ -41,7 +41,7 @@
 
 * Download the histogram to your computer, and put it in the Genomescope webservice: [Genomescope](http://qb.cshl.edu/genomescope/)
 
-###4. Run the assembly_stats script to get statistics about the PacBio data
+### 4. Run the assembly_stats script to get statistics about the PacBio data
 We use a python script to grab some statistics from assembly files, but we can also use it to look at our PacBio data. These are the stats it produces:  
 
 Total number of base pairs:    
@@ -68,7 +68,7 @@ Shortest contig is:
 * How long is the longest read?
 * What is the read N50?
 
-###5. Setting up MaSuRCA Illumina + PacBio Hybrid Assembly
+### 5. Setting up MaSuRCA Illumina + PacBio Hybrid Assembly
 * MaSuRCA runs with 2 job files. The first uses a configuration file to generate an sh script called assemble.sh. Then you just execute the sh script to complete the actual assembly.  
 * To generate a sample config file, load the MaSuRCA module ```bioinformatics/masurca``` and run this command ```masurca -g config.txt```
 * * Edit the file so that it points to your files and familiarize yourself with the parts. 
@@ -89,7 +89,7 @@ Shortest contig is:
 	+ **Command:** ```./assemble.sh```  
 * Submit this second job.
 
-###6. Run the fasta metadata parser to get statistics about the assembly
+### 6. Run the fasta metadata parser to get statistics about the assembly
 * I have put a finished assembly here: ```/data/genomics/workshops/SMSC_2019/pilon_siskin_final.fasta```
 	+ Module: ```bioinformatics/bioinformatics/assembly_stats```
 	+ Commands: ```assembly_stats <ASSEMBLY> > assembly_stats.out```
