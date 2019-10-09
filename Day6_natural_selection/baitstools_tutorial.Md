@@ -1,6 +1,6 @@
 # 1. Obtain BaitsTools from GitHub and check the help
 ## Obtain BaitsTools and make executable  
-Module: `tools/ruby/2.2.2/`  
+Module: `bioinformatics/ruby/2.6.3/`  
 Command: `git clone https://github.com/campanam/BaitsTools`  
 Command: `chmod +x BaitsTools/*.rb`  
 
