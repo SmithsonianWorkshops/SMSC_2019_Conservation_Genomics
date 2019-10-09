@@ -14,6 +14,7 @@
 
 2. **If I forgot my password or locked my account?**  
     Password resets are self-serve: [here](https://hydra-adm01.si.edu/ssp/?action=sendtoken)
+    `https://hydra-adm01.si.edu/ssp/?action=sendtoken`
 
 1. **Where am I when I log in?**  
     In your home directory: `/home/myusername`  
@@ -40,7 +41,7 @@
 
 1. **How do I start an analysis?**  
 
-    You can create a job file either using `nano` or the [Qsub Generator](https://hydra-adm01.si.edu/tools/QSubGen/), which is a web tool to create job files.
+    You can create a job file either using `nano` or the [Qsub Generator](https://hydra-adm01.si.edu/tools/QSubGen/), which is a web tool to create job files. `https://hydra-adm01.si.edu/tools/QSubGen/`
     
     You can submit a job using the command  
     `qsub jobfile.job`   
@@ -72,7 +73,7 @@
     #$ -S /bin/sh
     #$ -pe mthread 4 #(multithread w/ 4 CPUs)
     #$ -q mThC.q #(medium Time, high CPU)
-    #$ -l mres=6G,h_data=6G,h_vmem=6G
+    #$ -l mres=24G,h_data=6G,h_vmem=6G
     ```
     | Important: more memory is not necessarily better if the software can't use it efficiently. Jobs are prioritized based on queue, so low-RAM jobs will move through the queue faster. Inefficient jobs are flagged by the Hydra admin. |
     | --- |
