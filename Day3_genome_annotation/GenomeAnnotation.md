@@ -6,7 +6,7 @@
  * [3. Filter out small scaffolds](#3-Filter-out-small-scaffolds-(optional))
  * [4. Run BUSCO using the --long flag](#4-Run-BUSCO-using-the---long-flag)
  	* [4a. Using BUSCO output for the AUGUSTUS run](#4a-Using-BUSCO-output-for-the-AUGUSTUS-run)
- * [5. Run RepeatMasker](#5-Run-RepeatMasker)
+ * [5. Masking and annotating repetitive elements](#5-Masking-and-annotating-repetitive-elements)
  * [6. Run BLAT](#6-Run-BLAT)
  * [7. Create Augustus hints](#7-Create-Augustus-hints)
  	* [Creating hint files from RepeatMasker](#Creating-hint-files-from-RepeatMasker)
