@@ -644,7 +644,8 @@ This script can be found here `/data/genomics/workshops/SMSC_2019/gff2hints.pl`.
 #### Creating hint files from BLAT
 In this step, we will use the .psl file from the BLAT run to create a hint file for AUGUSTUS.
 
-- **Sort the .psl file**
+- **Sort the .psl file**  
+
 	`cat ../blat/siskin_blat.psl | sort -n -k 16,16 | sort -s -k 14,14 > hints/siskin_blat_srt.psl`
 	
 
