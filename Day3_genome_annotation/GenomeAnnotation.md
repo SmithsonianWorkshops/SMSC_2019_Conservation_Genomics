@@ -386,7 +386,7 @@ From the RepeatMasker manual (Smit, 2013-2015):
 #### Job file: repeatmasker.job
 - Queue: medium
 - PE: multi-thread
-- Number of CPUs: 10-24
+- Number of CPUs: 10
 - Memory: 4G
 - Module: `module load bioinformatics/repeatmasker`
 - Commands:
