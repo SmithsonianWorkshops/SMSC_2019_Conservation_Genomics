@@ -36,7 +36,7 @@ Next, we will change directories to the genome_annot folder and we will create a
 
 - assembly
 - busco
-- repeatmasker
+- repmasker
 - b2go
 - blast
 - blat
@@ -60,7 +60,7 @@ If you type the command `tree`, this is what you should see:
 .  
 |__ assembly  
 |__ busco  
-|__ repeatmasker  
+|__ repmasker  
 |__ b2go 
 |__ blast  
 |__ blat  
@@ -287,7 +287,7 @@ According to the BUSCO manual, the `--long` flag turns on Augustus optimization 
 - Commands:
 
 ```
-export AUGUSTUS_CONFIG_PATH="/pool/genomics/username/genome_annot/augustus/config"
+export AUGUSTUS_CONFIG_PATH="/pool/genomics/username/smsc_2019/genome_annot/augustus/config"
 #
 run_BUSCO.py --long -o siskin -i ../assembly/siskin_10largest.fasta -l aves_odb9 -c $NSLOTS -m genome
 ```
