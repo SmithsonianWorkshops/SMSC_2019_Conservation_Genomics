@@ -61,7 +61,7 @@ Median contig size:
 Mean contig size:  
 Longest contig is:  
 Shortest contig is: 
-	+ Module: ```bioinformatics/bioinformatics/assembly_stats```
+	+ Module: ```bioinformatics/assembly_stats```
 	+ Commands: ```assembly_stats <PACBIO.fasta> > pacbio_stats.out```
 	+ The PacBio data are here: ```/scratch/genomics/dikowr/siskin_raw_data/pacbio```
 
@@ -72,7 +72,7 @@ Shortest contig is:
 * MaSuRCA runs with 2 job files. The first uses a configuration file to generate an sh script called assemble.sh. Then you just execute the sh script to complete the actual assembly.  
 * To generate a sample config file, load the MaSuRCA module ```bioinformatics/masurca``` and run this command ```masurca -g config.txt```
 * * Edit the file so that it points to your files and familiarize yourself with the parts. 
-	+ Reminder, the raw data are here: ````/scratch/genomics/dikowr/siskin_raw_data/illumina_trimmed``` and ```/scratch/genomics/dikowr/siskin_raw_data/pacbio```
+	+ Reminder, the raw data are here: ```/scratch/genomics/dikowr/siskin_raw_data/illumina_trimmed``` and ```/scratch/genomics/dikowr/siskin_raw_data/pacbio```
 	+ Do not copy the data to your own space (look how big the files are!)  
 * To keep things tidy, create a directory for the MaSuRCA assembly in your space.
 	+ Hint: use ```mkdir```  
@@ -91,7 +91,7 @@ Shortest contig is:
 
 ### 6. Run the fasta metadata parser to get statistics about the assembly
 * I have put a finished assembly here: ```/data/genomics/workshops/SMSC_2019/pilon_siskin_final.fasta```
-	+ Module: ```bioinformatics/bioinformatics/assembly_stats```
+	+ Module: ```bioinformatics/assembly_stats```
 	+ Commands: ```assembly_stats <ASSEMBLY> > assembly_stats.out```
 
 * How long is the longest contig and scaffold?
