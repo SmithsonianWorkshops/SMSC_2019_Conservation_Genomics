@@ -11,7 +11,7 @@
 * Most assemblers these days don't want you to trim/thin for quality before assembling, but trimming is important for downstream applications. TrimGalore will auto-detect what adapters are present and remove very low quality reads (quality score <20) by default.  
 * Create a job file to trim adapters and very low quality reads for the Illumina data here: ```/scratch/genomics/dikowr/siskin_raw_data/illumina_raw```
 	+ **command**: ```trim_galore --paired --retain_unpaired <FILE_1.fastq> <FILE_2.fastq>```  
-	+ **module**: ```bioinformatics/trimgalore```
+	+ **module**: ```bioinformatics/trim_galore```
 	+ You can then run FastQC again to see if anything has changed.
 
 ### 3. Run Genomescope
