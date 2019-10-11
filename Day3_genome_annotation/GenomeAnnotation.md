@@ -15,7 +15,12 @@
  * [8. Edit the extrinsic file to add only the evidence you have](#8-Edit-the-extrinsic-file-to-add-only-the-evidence-you-have)
  * [9. AUGUSTUS](#9-AUGUSTUS)
  	* [9a. A brief introduction to LOOPS](#9a-A-brief-introduction-to-LOOPS)
- * [10. Create a genome browser with JBrowse](#10-Create-a-genome-browser-with-JBrowse)
+ * [Running Blast and Blast2GO](#Running-Blast-and-Blast2GO)
+ * [10. Split fasta into sub-files with 100 sequences](#10-Split-fasta-into-sub-files-with-100-sequences)
+ * [11. Create blast job array](#11-Create-blast-job-array)
+ * [12. Merge the xml files](#12-Merge-the-xml-files)
+ * [13. Running Blast2GO](##13-Running-Blast2GO)
+ * [14. Create a genome browser with JBrowse](#14-Create-a-genome-browser-with-Jbrowse)
 
 <!-- /TOC -->
 
