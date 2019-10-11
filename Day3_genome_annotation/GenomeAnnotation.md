@@ -893,7 +893,7 @@ The job is submitted from the directory where all the `Contig*` folders are loca
 Also, I'm saving all output files in a separate directory `output` to facilitate post-processing.
 
 
-#### Combining the results.
+#### Combining the results and extracting fasta sequences from the gene models.
 
 Use the script `join_aug_pred.pl` from AUGUSTUS (use the interactive queue `qrsh`, load the module `augustus` and run the commands from the `output` folder).
 
@@ -937,7 +937,173 @@ Use the script `join_aug_pred.pl` from AUGUSTUS (use the interactive queue `qrsh
 	</details>
 
 
-### 10. Create a genome browser with JBrowse
+## Running Blast and Blast2GO
+After running AUGUSTUS, we will run BLAST to try to characterize the gene models (putative genes, coding regions) identified by AUGUSTUS. We will use the file with aminoacid sequences `siskin_augustus_all.aa`
+
+##### Folder structure:
+
+First, we will create the folders fa, input_files, jobs, logs, results and xml inside the blast folder.
+
+	blast
+		|_ fa			split fasta files
+		|_ input_files 	input files before starting the analysis
+		|_ jobs			job files
+		|_ logs			log files
+		|_ results		FINAL results
+		|_ xml			xml outputs
+
+
+<details><summary>HINT</summary>
+<p>
+	
+---
+	
+```
+mkdir fa input_files jobs logs results xml
+```
+---
+	
+</p>
+</details>
+
+
+Nos, let's copy the file `siskin_augustus_all.aa` from the folder `augustus/output` to the folder `blast/input_files`.
+
+
+<details><summary>HINT</summary>
+<p>
+	
+---
+	
+`cd` into the folder `input_files`, and then:
+	
+```
+cp ../../augustus/output/siskin_augustus_all.aa .
+```
+---
+	
+</p>
+</details>
+
+
+### 10. Split fasta into sub-files with 100 sequences
+To make BLAST more efficient, we will split the amioacid fasta file into multiple files with 50 sequences each. 
+
+
+**Generic command**
+
+	awk 'BEGIN {n_seq=0;} /^>/ \
+	{if(n_seq%50==0){file=sprintf("prefix_%d.fa",n_seq);} \
+	print >> file; n_seq++; next;} { print >> file; }' < augustus_CDS.fasta
+	
+(Source: https://www.biostars.org/p/13270/)
+
+**Our command**
+
+	awk 'BEGIN {n_seq=0;} /^>/ {if(n_seq%50==0){file=sprintf("../fa/siskin_augustus_aa_%d.fa",n_seq);} print >> file; n_seq++; next;} { print >> file; }' < siskin_augustus_all.aa
+
+
+Some notes about this script: 
+
+- On the second line, the number correspond to the number of sequences in each file (100).
+- The prefix is the name of your new files, followed by their number ID.
+
+
+### 11. Create blast job array
+
+Now, we will create a blast job with tasks, or a job array. In very non-technical terms, think about a job array as an item on a to-do list that has multiple sub-tasks. To run this job array, we will create a very different kind of job, with three separate files:  
+	* list  
+	* job header  
+	* list of commands  
+
+	
+Let's work from the `blast/jobs` folder
+
+##### List
+This list contains all the files that will be used as input for the job array. To generate this list, we will save the output of the command `ls` to a file called `blast.list` in the folder `jobs`
+
+From the folder `blast/fa`, do:
+
+```
+ls *.fa > ../jobs/blast.list
+```
+
+##### Job header
+This file contains all the information to run the job that is normally found in the header of a job file. You can copy a template from `data/genomics/workshops/SMSC_2019/blastp_template.conf`. Let's explore the file:
+
+```
+qsub \
+-q mThC.q \
+-l mres=6G,h_data=6G,h_vmem=6G \
+-cwd -j y -N blastp \
+-t 1-50 \
+-o '../logs/blastp_$TASK_ID.log' \
+-b y $PWD/blastp.sh
+```
+
+How is it different from a regular job file? 
+
+Parameter to change:  
+	`-t 1-50` should be changed to the maximum number of files in the folder `blast/fa` (which is the same as the number of lines in the file `blast.list`)
+
+##### List of commands
+This file contains the job commands, as well as the modules to be loaded. You can copy the template `blastp_template.sh` from  `data/genomics/workshops/SMSC_2019/`
+
+```
+#!/bin/sh
+#
+# ----------------Modules------------------------- #
+source /etc/profile.d/modules.sh
+module load bioinformatics/blast
+#
+# ----------------Your Commands------------------- #
+#
+echo + `date` job $JOB_NAME started in $QUEUE with jobID=$JOB_ID on $HOSTNAME
+#
+i=$SGE_TASK_ID
+P=`awk "NR==$i" my.list`
+#
+echo $P
+#
+blastp -query ../fa/${P} -db nr -outfmt 5 -max_target_seqs 10 -evalue 1e-4 -out ../xml/${P}.xml
+#
+echo = `date` job $JOB_NAME done
+#
+```
+
+Let's change the name of the list: currently `my.list`. Use the name of the list you created.
+
+#### Running the job:
+To run this job, you will use a different command. 
+
+`source blastp_siskin.conf`
+
+You should see a message that says `Your job-array 1012884.1-38:1 ("blastp_") has been submitted`. 
+
+Use `qstat` to see your jobs running. And also explore the folders `logs` and `xml`.
+
+### 12. Merge the xml files
+
+After all the jobs are done, you need to merge all xml files into one single file. You can use `cat` for that:
+From the `xml` folder, do:
+
+	cat $(find . -name "*.xml" | sort -V) > ../results/siskin_blastp_all.xml
+	
+
+### 13. Running Blast2GO
+
+Normally, we would run Blast2go from the command line, but we won't be able to do that. Instead, we will use the GUI version to do functional annotation.
+
+Download Blast2go from `https://www.blast2go.com/` 
+
+We need to copy the following files from hydra to your local computer:
+- siskin_augustus_all.aa
+- siskin_augutus_all.gff
+- siskin_blastp_all.xml
+
+
+
+### 14. Create a genome browser with JBrowse
 
 Now that we have an annotated genome, we can visualize the assembly and annotations using a genome browser. Today we will show you how to setup a genome browser using JBrowse, and those same files can be used with WebApollo for manual annotation.
 
@@ -949,43 +1115,29 @@ We will use the jbrowse module on the interactive queue.
 	module load bioinformatics/jbrowse/1.0
 
 
-1. **prepare-refseqs.pl**: formats the reference sequence to be used with JBrowse
+a. **prepare-refseqs.pl**: formats the reference sequence to be used with JBrowse
 	
-```
-prepare-refseqs.pl \  
---fasta ../assembly/siskin_10largest.fasta \
---out ./siskin
-```
+`prepare-refseqs.pl --fasta ../assembly/siskin_10largest.fasta`
 	
 Obs: fasta can be gzipped.  
 	
-2. **flatfile-to-json.pl**: format data into JBrowse JSON format from an annotation file
+b. **flatfile-to-json.pl**: format data into JBrowse JSON format from an annotation file
 
-```
-flatfile-to-json.pl --gff ../augustus/output/siskin_augustus_final.gff3 \
---type CDS \
---tracklabel Augustus_CDS \
---out ./siskin
-
-```
+`flatfile-to-json.pl --gff ../augustus/output/siskin_augustus_final.gff3 --tracklabel Augustus_CDS `
 
 Observations:  
 `--gff` can't be gzipped, and must be GFF3. In addition, this script will accept `--bed` and `--gbk` (genbank) files as input.  
 `--type` is the 3rd column of the GFF file. Option are: cDNA_match, CDS, exon, gene, guide_RNA, lnc_RNA, mRNA, pseudogene, rRNA, snoRNA, snRNA, transcript, tRNA, V_gene_segment.  
 `--tracklabel` should be informative
 
-3. **generate-names.pl**: builds a global index of feature names.
+c. **generate-names.pl**: builds a global index of feature names.
 	
-```
-generate-names.pl --out ./siskin
-```
-Obs: `--out` is the directory to be processed. 
 
-4. **Zip your results**
+`generate-names.pl`
 
-```
-tar -zcf siskin.tar.gz ./siskin
-```	
+d. **Zip your results**
+
+`tar -zcf siskin.tar.gz ./data`	
 
 To visualize the results, you need to install JBrowse locally on your laptop. To make things easier, save the JBrowse folder on your Desktop. The simplified steps are listed below; you might need to install extra dependencies. 
 
@@ -1019,7 +1171,7 @@ In my case, I opened a web browser (Chrome) and pasted `http://localhost:8082` o
 - **To visualize your data**
 	- Copy the zipped file from Hydra to your machine using `scp` or Filezilla.  
 
-		`scp username@hydra-login01.si.edu:/pool/genomics/username/genome_annot/jbrowse/siskin.tar.gz ./Desktop/jbrowse`
+		`scp username@hydra-login01.si.edu:/pool/genomics/username/smsc_2019/genome_annot/jbrowse/siskin.tar.gz ./Desktop/jbrowse`
 	- Extract the file  
 		`tar -zxf siskin.tar.gz`
 	- Add the folder name to the address bar. In my case, this is the address to display my JBrowse files: 
@@ -1029,3 +1181,4 @@ In my case, I opened a web browser (Chrome) and pasted `http://localhost:8082` o
 			- `localhost:8082`: this is the port in your computer that's being used by JBrowse.   
 			- `index.html`: you will find this file in your local `jbrowse` folder. This is a HTML page, formatted to display the JBrowse files correctly.  
 			- `data=siskin`: this is the path to your data file inside the `jbrowse` folder. The examples provided with the installation are inside `sample_data/json/volvox`. If you replace your folder name by this, you will be able to see the sample data for *Volvox*. 
+
