@@ -33,7 +33,7 @@
 	+ **module**: ```bioinformatics/samtools```
 	+ **command**: ```samtools sort <YOUR_BAM.bam> -o <YOUR_BAM_sorted.bam>```  
 * Or combine the two into one command
-  * **command**: ```samtools view -u $1 | samtools sort -O bam -o $1.sorted.bam```
+  * **command**: ```samtools view -F 12 -q 0 -u $1 -@ $NSLOTS | samtools sort -O bam -o $1.sorted.bam -@ $NSLOTS```
   * **to run the job file**: ```for i in ../variants/*sam; do qsub 3_sortedbam.job $i; done```
 
 ### 3. Mark Duplicates with picard-tools (not necessary if library is PCR-free)
