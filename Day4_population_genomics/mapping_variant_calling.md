@@ -46,8 +46,16 @@
 	+ **command**: ```runpicard CreateSequenceDictionary R=../genome/<YOUR_SCAFFOLD.fasta> O=../genome/<YOUR_SCAFFOLD.dict>```
 * Now we can create a job file to mark duplicates:
 	+ **module**: ```module load bioinformatics/picard-tools/2.20.6```
-	+ **command**: ```runpicard MarkDuplicates I=$NAME M=$NAME.metric.txt O=$NAME.mdup.bam \
-	  MAX_FILE_HANDLES_FOR_READ_ENDS_MAP=1000 SORTING_COLLECTION_SIZE_RATIO=0.25```
+	+ **command**: 
+	
+		```
+		PICARD_HEAP_SIZE=32g
+		NAME=$1
+		shift
+		runpicard MarkDuplicates I=$NAME M=$NAME.metric.txt 	O=$NAME.mdup.bam \
+		MAX_FILE_HANDLES_FOR_READ_ENDS_MAP=1000 SORTING_COLLECTION_SIZE_RATIO=0.25
+		```
+	
 	+ To run the job file: ```for i in ../variants/*sorted.bam; do qsub 5_picard_mark_dup.job $i; done```
 
 ### 4. Realign indels before calling variants (not necessary after GATK 3.7 if using HaplotypeCaller)
