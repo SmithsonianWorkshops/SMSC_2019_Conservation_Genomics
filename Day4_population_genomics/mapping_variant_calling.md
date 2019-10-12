@@ -3,7 +3,7 @@
 * Create a pop_gen folder inside your ```./SMSC``` directory, then create subdirectories: jobs, logs, genome, variants
 * For this part of the tutorial, we're each going to work with a single long scaffold (xx.pilon.fasta) from the Red Siskin assembly. 
 	+ It is here: ```/data/genomics/workshops/SMSC_2019/Contig3141_pilon.fasta```
-	+ Copy this scaffold to your new genome folder in your ```/pool/genomics/``` space. Eg. ```cp /data/genomics/workshops/SMSC_2019/Contig3141_pilon.fasta ./genome``` if you are inside the pop_gen folder.
+	+ Copy this scaffold to your new genome folder in your ```/scratch/genomics/``` space. Eg. ```cp /data/genomics/workshops/SMSC_2019/Contig3141_pilon.fasta ./genome``` if you are inside the pop_gen folder.
 * First we'll need to index the fasta file (reference scaffold) before we can map raw data to it. Create a job file for this:
 	+ **module**: ```bioinformatics/bowtie2```
 	+ **command**: ``bowtie2-build --threads $NSLOTS <SCAFFOLD.fasta> NAME``
