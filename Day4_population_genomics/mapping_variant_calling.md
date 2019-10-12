@@ -52,7 +52,7 @@
 		PICARD_HEAP_SIZE=32g
 		NAME=$1
 		shift
-		runpicard MarkDuplicates I=$NAME M=$NAME.metric.txt 	O=$NAME.mdup.bam \
+		runpicard MarkDuplicates I=$NAME M=$NAME.metric.txt O=$NAME.mdup.bam \
 		MAX_FILE_HANDLES_FOR_READ_ENDS_MAP=1000 SORTING_COLLECTION_SIZE_RATIO=0.25
 		```
 	
