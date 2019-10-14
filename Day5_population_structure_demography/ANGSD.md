@@ -58,6 +58,7 @@ The above command will copy both the bam file and its index file.
 	+ **module**: `bioinformatics/R/3.6.0_conda`
 	+ **command**: `Rscript PCA_plot.r`
 * Now you can download your PCA plot and take a look at it. What do you notice?
+* Either use an ftp client like FlieZilla or Cyberduck or `scp` to download the file. For `scp`, use a command like: `scp USER@hydra-login01.si.edu:/PATH/TO/PLOT .`
 
 ### 4. Run Admixture analysis with `NGSAdmix`
 
