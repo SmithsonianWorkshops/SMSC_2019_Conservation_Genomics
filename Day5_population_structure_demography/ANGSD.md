@@ -38,7 +38,7 @@ The above command will copy both the bam file and its index file.
 	+ **command**:
 
 		```
-		angsd -GL 2 -out ../angsd/PCA -nThreads $NSLOTS \
+		angsd -GL 1 -out ../angsd/PCA -nThreads $NSLOTS \
 		-doGlf 2 -doMajorMinor 1 -SNP_pval 1e-6 -doMaf 1 \
 		-bam ../angsd/bamlist.txt
 		```
