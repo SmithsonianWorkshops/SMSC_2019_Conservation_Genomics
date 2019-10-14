@@ -1,7 +1,7 @@
 ## ANGSD
 * Reminder to take notes, share info here: [Etherpad](https://pad.carpentries.org/2019-Oct-SMSC)
 
-Now that we have the bam files from yesterday, we are going to run [ANGSD](http://www.popgen.dk/angsd/index.php/ANGSD). ANGSD can perform a variety of population genomics analyses. Today, we are going to use it to look at population structure and to estimate an allele frequency spectrum (or site frequency spectrum).
+Now that we have the bam files from yesterday, we are going to run [ANGSD](http://www.popgen.dk/angsd/index.php/ANGSD). ANGSD can perform a variety of population genomics analyses. Today, we are going to use it to look at population structure and to estimate a site frequency spectrum (or allele frequency spectrum).
 
 First, you need to add an additional `bam` file to your `variants` directory. This is a `bam` file of the raw reads for the reference, mapped back to its own genome. This will allow us to include it in our population structure analyses and demographic analyses. You can `cd` into your `pop_gen/variants` directory and copy it using:
 
@@ -54,6 +54,7 @@ The above command will copy both the bam file and its index file.
 
 ### 3. Create your PCA plot
 * You can plot the PCA with an `R` script that can be found in `/scratch/genomics/frandsenp/SMSC/pop_gen/scripts/PCA_plot.r`. In order to run it, you need to have a list with the sample names in the same order as the original `bamlist`, `siskin_pop.txt`, in the same directory as the both the script and your covariance matrix. You can copy this file from `/scratch/genomics/frandsenp/SMSC/pop_gen/angsd/siskin_pop.txt`.
+	+ **module**: `bioinformatics/R/3.6.0_conda`
 	+ **command**: `Rscript PCA_plot.r`
 * Now you can download your PCA plot and take a look at it.
 
@@ -69,5 +70,6 @@ The above command will copy both the bam file and its index file.
 * Now we will create a simple admixture plot using our results from `NGSadmix`
 * Copy the script, `admix_plot.r` from `/scratch/genomics/frandsenp/SMSC/pop_gen/scripts/admix_plot.r` to your `angsd` directory.
 * Make sure that `siskin_pop.txt` is still in your directory. This is another fast script, which is fine to run with `qrsh`.
+	+ **module**: `bioinformatics/R/3.6.0_conda`
 	+ **command**: `Rscript admix_plot.r`
 * You will now have a plot in an image called `siskin_admix.png`. Feel free to download it and take a look. You will notice that, for these populations, there is very little evidence of admixture.
