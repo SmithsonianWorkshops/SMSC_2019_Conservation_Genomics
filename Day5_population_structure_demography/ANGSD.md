@@ -29,9 +29,10 @@ The above command will copy both the bam file and its index file.
 	../variants/MB-S7_GATCAG.sam.sorted.bam.mdup.bam
 	../variants/MB-S8_TAGCTT.sam.sorted.bam.mdup.bam
 	../variants/MB-S9_GGCTAC.sam.sorted.bam.mdup.bam
+	../variants/ref_siskin.sorted.bam.mdup.bam
 	```
 
-* Now `cd` into your jobs directory and create a new job file. Call it `angsd_geno_like.job`.
+* Now `cd` into your `jobs` directory and create a new job file. Call it `angsd_geno_like.job`.
 	+ You should choose 4GB of RAM per CPU and 24 CPUs. The `ANGSD` command for to call the genotypes for a PCA is:
 	+ **module**: `bioinformatics/angsd`
 	+ **command**:
@@ -53,16 +54,16 @@ The above command will copy both the bam file and its index file.
 * After this is finished running, you should have a file in the `angsd` directory called `siskin_PCA.cov`. This is your covariance matrix and can be used to generate your PCA.
 
 ### 3. Create your PCA plot
-* You can plot the PCA with an `R` script that can be found in `/scratch/genomics/frandsenp/SMSC/pop_gen/scripts/PCA_plot.r`. In order to run it, you need to have a list with the sample names in the same order as the original `bamlist`, `siskin_pop.txt`, in the same directory as the both the script and your covariance matrix. You can copy this file from `/scratch/genomics/frandsenp/SMSC/pop_gen/angsd/siskin_pop.txt`.
+* You can plot the PCA with an `R` script that can be found in `/scratch/genomics/frandsenp/SMSC/pop_gen/scripts/PCA_plot.r`. Copy it into your `angsd` folder. In order to run it, you need to have a list with the sample names in the same order as the original `bamlist`, `siskin_pop.txt`, in the same directory as the both the script and your covariance matrix. You can copy this file from `/scratch/genomics/frandsenp/SMSC/pop_gen/angsd/siskin_pop.txt`.
 	+ **module**: `bioinformatics/R/3.6.0_conda`
 	+ **command**: `Rscript PCA_plot.r`
-* Now you can download your PCA plot and take a look at it.
+* Now you can download your PCA plot and take a look at it. What do you notice?
 
 ### 4. Run Admixture analysis with `NGSAdmix`
 
 * `NGSAdmix` is now part of the `ANGSD` package and can perform admixture analysis using the beagle file of genotype likelihoods that you generated in step 1. `cd` into your `jobs` directory and create a job file with the following commands. Alternatively, since it is fast on data from a single scaffold, a `qrsh` session would suffice. The parameter that you need to think about here is `K`, which as you learned in the lecture is the number of ancestral populations. Since we have two populations in this dataset, one from Venezuela and one from Guyana, we will set `K` to 2.
-	+ **module**: `bioinformatics/angsd`
-	+ **command**: `NGSadmix -likes ../angsd/PCA_beagle.gz -K 2 -o ../angsd/siskin_admix -P $NSLOTS`
+	+ **module**: `bioinformatics/ngsadmix`
+	+ **command**: `NGSadmix -likes ../angsd/PCA.beagle.gz -K 2 -o ../angsd/siskin_admix -P $NSLOTS`
 
 * When the job is finished, you will have a couple of new files in the `angsd` directory. `siskin_admix.fopt.gz` is a gzipped file that contains the estimated allele frequencies for each population for each locus. `siskin_admix.qopt` contains the estimated admixture proportions for each individual.
 
