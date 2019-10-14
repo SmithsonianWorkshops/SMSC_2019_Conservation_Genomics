@@ -73,4 +73,15 @@ The above command will copy both the bam file and its index file.
 * Make sure that `siskin_pop.txt` is still in your directory. This is another fast script, which is fine to run with `qrsh`.
 	+ **module**: `bioinformatics/R/3.6.0_conda`
 	+ **command**: `Rscript admix_plot.r`
-* You will now have a plot in an image called `siskin_admix.png`. Feel free to download it and take a look. You will notice that, for these populations, there is very little evidence of admixture.
+* You will now have a plot in an image called `siskin_admix.png`. Feel free to download it and take a look. You will notice that, for these populations, there is very little evidence of admixture with a `K` of 2.
+
+### 6. Rerun 4 and 5 with a `K` of 3 and a `K` of 4
+* We don't have enough individuals to make this very interesting, but re-run number 4 and 5, with different `K` numbers. Name the output differently so you donn't overwrite your first results. Modify the `R` script so that it reads the new file and writes a different image name. What do you notice?
+
+### 7. Generate a site frequency spectrum
+* Now we'll create a site frequency spectra.
+* The first step is to generate two new bam lists, one for each population. You can do this by simply opening the `bamlist.txt` file and copy and pasting the Guyana samples into a new file called `bamlist_guy.txt` and the Venezuela samples into a file called `bamlist_ven.txt`. Alternatively, you can copy them from me. They are in: `/scratch/genomics/frandsenp/SMSC/pop_gen/angsd`.
+* Next, since we don't have an ancestral genome, we'll create a folded site frequency spectrum for each sample.
+	+ **module** `bioinformatics/angsd`
+	+ **command** ```angsd -bam ../angsd/bamlist_guy.txt -doSaf 1 -out ../angsd/sfs_guy -anc ../genome/Contig86_pilon.fasta -GL 2 -fold 1```
+	```angsd -bam ../angsd/bamlist_ven.txt -doSaf 1 -out ../angsd/sfs_ven -anc ../genome/Contig86_pilon.fasta -GL 2 -fold 1```
