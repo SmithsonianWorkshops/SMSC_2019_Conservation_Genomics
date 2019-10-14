@@ -79,9 +79,10 @@ The above command will copy both the bam file and its index file.
 * We don't have enough individuals to make this very interesting, but re-run number 4 and 5, with different `K` numbers. Name the output differently so you donn't overwrite your first results. Modify the `R` script so that it reads the new file and writes a different image name. What do you notice?
 
 ### 7. Generate and plot a site frequency spectrum
-* Now we'll create a site frequency spectra.
+* Now we'll create a site frequency spectrum for each population.
 * The first step is to generate two new bam lists, one for each population. You can do this by simply opening the `bamlist.txt` file and copy and pasting the Guyana samples into a new file called `bamlist_guy.txt` and the Venezuela samples into a file called `bamlist_ven.txt`. Alternatively, you can copy them from me. They are in: `/scratch/genomics/frandsenp/SMSC/pop_gen/angsd`.
 * Next, since we don't have an ancestral genome, we'll create a folded site frequency spectrum for each sample. There is a bug in the most recent version of `angsd` so notice that we use a different module for a previous version.
+* _Vitally important note_ when running on a full data set, you will want to explore the various filtering parameters to ensure that you are confident in the sites that you are using for your sfs
 	+ **module** `bioinformatics/angsd/0.921`
 	+ **command** ```angsd -bam ../angsd/bamlist_guy.txt -doSaf 1 -out ../angsd/sfs_guy -anc ../genome/Contig86_pilon.fasta -GL 2 -fold 1```
 	```angsd -bam ../angsd/bamlist_ven.txt -doSaf 1 -out ../angsd/sfs_ven -anc ../genome/Contig86_pilon.fasta -GL 2 -fold 1```
@@ -97,3 +98,7 @@ The above command will copy both the bam file and its index file.
 		```Rscript barplot_sfs_ven.r```
 	
 	+ Now you should have two new `png` images that you can download. Check them out. What do you notice about the site frequency spectra?
+
+	
+### 8. Generate a 2D site frequency spectrum
+* Now that we have the individual site frequency spectra, we can generate a 2d sfs.
