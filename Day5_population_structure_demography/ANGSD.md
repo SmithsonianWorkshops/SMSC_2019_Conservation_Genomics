@@ -101,4 +101,8 @@ The above command will copy both the bam file and its index file.
 
 	
 ### 8. Generate a 2D site frequency spectrum
-* Now that we have the individual site frequency spectra, we can generate a 2d sfs.
+* Now that we have the individual site frequency spectra, we can generate a 2d sfs. `cd` back into the `jobs` directory.
+	+ **module** `bioinformatics/angsd/0.921`
+	+ **command** ```realSFS ../angsd/sfs_guy.saf.idx ../angsd/sfs_ven.saf.idx > ../angsd/siskin_2d.saf.sfs```
+
+	* _Optional_: If you feel comfortable with running a Jupyter notebook, you can also plot this with the `Plot_sfs.ipynb` notebook provided in this repository.
