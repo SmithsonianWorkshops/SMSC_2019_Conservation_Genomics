@@ -31,7 +31,7 @@ Command: `vcftools --vcf <INPUT_VCF> --LROH --chr <CHROMOSOME NAME> # Show LROHs
 
 Command: `vcftools --vcf <INPUT_VCF> --recode --out <INDIVIDUAL> --indv <INDIVIDUAL>`  
 ## Get Heterozygous sites 
-Command: `vcftools --vcf <INDIVIDUAl>.recode.vcf --recode --out <INDIVIDUAL>_hetsites --max-maf 0.9 --maf 0.1`  
+Command: `vcftools --vcf <INDIVIDUAl>.recode.vcf --recode --out <INDIVIDUAL>_hetsites --maf 0.1`  
 
 ## Get heterozygous densities  
 Command: `vcftools --vcf <INDIVIDUAL>_hetsites.recode.vcf --SNPdensity <WINDOW_SIZE> --out <INDIVIDUAL>_hetsites`  
